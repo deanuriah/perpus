@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Data Pengunjung Perpus</h1>
-    <NuxtLink to="/isi/siswa">Isi siswa</NuxtLink>
+    <NuxtLink to="/">Isi siswa</NuxtLink>
     <NuxtLink to="/isi/guru">Isi guru</NuxtLink>
     <table border="1" width="50%">
       <thead>
