@@ -1,31 +1,41 @@
 <template>
   <div>
-    <h1>Isi Data Pengunjung Perpus</h1>
-    <form @submit.prevent="simpan()">
-      <input v-model="nama" placeholder="nama" />
-      <input v-model="kelas" placeholder="kelas" />
-      <input v-model="jurusan" placeholder="jurusan" />
-      <input v-model="keperluan" placeholder="keperluan" />
-      <button type="submit">Kirim</button>
-      <NuxtLink to="/pengunjung/siswa">Kembali</NuxtLink>
-    </form>
+    <h1>Data Pengunjung Perpus</h1>
+    <NuxtLink to="/isi/siswa">Isi siswa</NuxtLink>
+    <NuxtLink to="/isi/guru">Isi guru</NuxtLink>
+    <table border="1" width="50%">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>tanggal</th>
+          <th>nama</th>
+          <th>kelas</th>
+          <th>jurusan</th>
+          <th>keperluan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="visitor in datas" :key="visitor.id">
+          <td>{{ visitor.id }}</td>
+          <td>{{ visitor.tanggal }}</td>
+          <td>{{ visitor.nama }}</td>
+          <td>{{ visitor.kelas }}</td>
+          <td>{{ visitor.jurusan }}</td>
+          <td>{{ visitor.keperluan }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script setup>
 const supabase = useSupabaseClient();
-const nama = ref();
-const kelas = ref();
-const jurusan = ref();
-const keperluan = ref();
-async function simpan() {
-  await supabase.from("pengunjungsiswa").insert({
-    nama: nama.value,
-    kelas: kelas.value,
-    jurusan: jurusan.value,
-    keperluan: keperluan.value,
-  });
-  const router = useRouter();
-  router.push("/pengunjung/siswa");
+const datas = ref([]);
+async function getData() {
+  const { data, error } = await supabase.from("pengunjungsiswa").select();
+  datas.value = data;
 }
-</script>
+onMounted(() => {
+  getData();
+});
+</script>                                                                                                            
